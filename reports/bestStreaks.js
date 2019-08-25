@@ -1,24 +1,22 @@
-var fs = require('fs');
-var DayDate = require('../src/DayDate');
-var Streaks = require('../src/Streaks');
-var Streak = require('../src/Streak');
-var genSpaces = require('../src/genSpaces.js');
+const fs = require('fs');
+const DayDate = require('../src/DayDate');
+const Streaks = require('../src/Streaks');
+const Streak = require('../src/Streak');
 
+let habits = [];
+let max; // Length of the longest habit name
 
-var habits = [];
-var max; // Length of the longest habit name
-
-fs.readFile('./data.txt', 'utf-8', function(e, d) {
+fs.readFile('./data.txt', 'utf-8', (e, d) => {
   habits = d.split(/\n/);
 
-  var done = [];
-  var dates = {};
-  var times = 1;
+  let done = [];
+  const dates = {};
+  let times = 1;
 
-  for (var i = 0; i < habits.length; i++) {
+  for (let i = 0; i < habits.length; i += 1) {
     if (!done.includes(habits[i].substring(0, habits[i].indexOf(',')))) {
-      done = done.concat([habits[i].substring(0, habits[i].indexOf(','))])
-      name = habits[i].substring(0, habits[i].indexOf(','));
+      done = done.concat([habits[i].substring(0, habits[i].indexOf(','))]);
+      const name = habits[i].substring(0, habits[i].indexOf(','));
 
       if (max) {
         if (name.length > max) {
@@ -31,10 +29,10 @@ fs.readFile('./data.txt', 'utf-8', function(e, d) {
         max = name.length;
       }
 
-      for (var j = 0; j < habits.length; j++) {
+      for (let j = 0; j < habits.length; j += 1) {
         if (habits[j].startsWith(name)) {
           if (times) {
-            times++; // increment times
+            times += 1; // increment times
           } else {
             times = 1;
           }
@@ -46,13 +44,13 @@ fs.readFile('./data.txt', 'utf-8', function(e, d) {
         }
       }
 
-      streaks = [];
-      var prev = null;
-      var currentStreak = null;
+      let streaks = [];
+      let prev = null;
+      let currentStreak = null;
 
       // create streaks
-      dates[name].forEach(dayDate => {
-        if (prev && prev.getNext().toString() == dayDate.toString().replace(',', '')) {
+      dates[name].forEach((dayDate) => {
+        if (prev && prev.getNext().toString() === dayDate.toString().replace(',', '')) {
           if (currentStreak) {
             currentStreak.setEndDate(dayDate);
           } else {
@@ -82,4 +80,4 @@ fs.readFile('./data.txt', 'utf-8', function(e, d) {
   }
 });
 
-console.log('\x1B[37;1;4mBest Streaks\x1B[0m');
+console.log('\x1B[37;1;4mBest Streaks\x1B[0m'); // eslint-disable-line no-console

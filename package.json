@@ -5,7 +5,8 @@
   "scripts": {
     "best-streaks": "nodemon reports/bestStreaks --exec 'eslint . && node'",
     "current-streaks": "nodemon reports/currentStreaks --exec 'eslint . && node'",
-    "last-7-days": "nodemon reports/lastSevenDays --exec 'eslint . && node'",
+    "last-7-days-eslint": "nodemon reports/lastSevenDays --exec 'eslint . && node'",
+    "last-7-days": "nodemon reports/lastSevenDays",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --passWithNoTests"
   },

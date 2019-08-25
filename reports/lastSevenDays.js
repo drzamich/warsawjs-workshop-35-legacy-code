@@ -1,30 +1,25 @@
-var fs = require('fs');
-var DayDate = require('../src/DayDate');
-var Streak = require('../src/Streak');
+const fs = require('fs');
+const DayDate = require('../src/DayDate');
+const DaysBar = require('../src/DaysBar.js');
 
-var CounterBar = require('../src/CounterBar');
-var DaysBar = require('../src/DaysBar.js');
-var DayDate = require('../src/DayDate.js');
+let habits = [];
 
+console.log('\x1B[37;1;4mLast 7 Days\x1B[0m'); // eslint-disable-line no-console
 
-var habits = [];
-
-console.log('\x1B[37;1;4mLast 7 Days\x1B[0m');
-
-fs.readFile('./data.txt', 'utf-8', function(e, d) {
+fs.readFile('./data.txt', 'utf-8', (e, d) => {
   habits = d.split(/\n/);
 
 
-  var done = [];
+  let done = [];
 
-  var dates = {};
+  const dates = {};
 
-  for (var i = 0; i < habits.length; i++) {
+  for (let i = 0; i < habits.length; i += 1) {
     if (!done.includes(habits[i].substring(0, habits[i].indexOf(',')))) {
-      done = done.concat([habits[i].substring(0, habits[i].indexOf(','))])
-      name = habits[i].substring(0, habits[i].indexOf(','));
+      done = done.concat([habits[i].substring(0, habits[i].indexOf(','))]);
+      const name = habits[i].substring(0, habits[i].indexOf(','));
 
-      for (var j = 0; j < habits.length; j++) {
+      for (let j = 0; j < habits.length; j += 1) {
         if (habits[j].startsWith(name)) {
           if (!dates[name]) {
             dates[name] = [];
@@ -33,28 +28,26 @@ fs.readFile('./data.txt', 'utf-8', function(e, d) {
         }
       }
 
-      var howManyDays = 0;
-      var today = DayDate.today();
-      var sixDaysAgo = today.subtractDays(6);
-      var daysBar = new DaysBar(sixDaysAgo, today);
+      const today = DayDate.today();
+      const sixDaysAgo = today.subtractDays(6);
+      const daysBar = new DaysBar(sixDaysAgo, today);
 
-      var currentDayDate = sixDaysAgo;
+      let currentDayDate = sixDaysAgo;
 
-      console.log('\x1B[37;1m' + name + '\x1B[0m: ');
+      const cb = (date) => date.toString().replace(',', '') === currentDayDate.toString();
+
+      console.log(`\x1B[37;1m${name}\x1B[0m: `); // eslint-disable-line no-console
 
       while (currentDayDate.toString() <= today.toString()) {
-        if (dates[name].find(date => date.toString().replace(',', '') == currentDayDate.toString())) {
+        if (dates[name].find(cb)) {
           daysBar.addDayDate(currentDayDate, true);
-        } else {
-          if (currentDayDate.toString() != today.toString()) {
-            daysBar.addDayDate(currentDayDate, false);
-          }
+        } else if (currentDayDate.toString() !== today.toString()) {
+          daysBar.addDayDate(currentDayDate, false);
         }
         currentDayDate = currentDayDate.getNext();
       }
 
-      daysBar.printBar();
-
+      console.log(daysBar.generateBar()); // eslint-disable-line no-console
     }
   }
   // console.log('dates', dates);

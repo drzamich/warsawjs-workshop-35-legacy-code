@@ -20,4 +20,4 @@ module.exports = class Streak {
   setEndDate(date) {
     this.last = date;
   }
-}
+};
