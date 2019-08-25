@@ -7,5 +7,8 @@
     "current-streaks": "node reports/currentStreaks",
     "last-7-days": "node reports/lastSevenDays"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }
