@@ -5,7 +5,9 @@
   "scripts": {
     "best-streaks": "node reports/bestStreaks",
     "current-streaks": "node reports/currentStreaks",
-    "last-7-days": "node reports/lastSevenDays"
+    "last-7-days": "node reports/lastSevenDays",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --passWithNoTests"
   },
   "license": "MIT",
   "devDependencies": {
